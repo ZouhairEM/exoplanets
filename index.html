@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <title>
+         Project: Exoplanets
+      </title>
+      <link href="layout.css" rel="stylesheet" type="text/css">
+      <link href="images/favicon.png" rel="shortcut icon" type="text/css">
+   </head>
+   <body>
+      <canvas id="ftlcanvas"></canvas>
+      <script src="js/three.min.js"></script>
+      <script src="js/jquery.js"></script>
+      <script src="index.js"></script>
+      <script src="js/data.js"></script>
+      <script src="js/positioning.js"></script>
+      <script src='js/tween.js'></script>
+      <script src="js/dat.gui.min.js"></script>
+      <script src="js/OrbitControls.js"></script>
+      <script src="js/xRingGeometry.js"></script>
+      <script src="js/moment.min.js"></script>
+      <script id="vertexShader" type="x-shader/x-vertex">varying vec3 vNormal; void main() { vNormal = normalize( normalMatrix * normal ); gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 ); }</script>
+      <script id="fragmentShader" type="x-shader/x-fragment">varying vec3 vNormal; uniform vec3 diffuse; void main() { float intensity = pow( 0.3 - dot( vNormal, vec3( 0.0, 0.0, 1.0 ) ), 4.0 ); gl_FragColor = vec4(diffuse.x, diffuse.y, diffuse.z, 1.0) * intensity; }</script>
+      <script src="js/ftldrive.js"></script>
+      <div id="container">
+         <div id="menu">
+            <div id="intro">
+               <i>
+                  <b>
+                     <p>PROJECT: EXOPLANETS
+                  </b>
+                  invites you to traverse through the galaxy.
+                  <p>
+                     Explore not just the planets in our own solar system, but those beyond it. 
+                  <p>This is a visualization of exoplanets confirmed by NASA.
+               </i>
+            </div>
+            <div id="buttons">
+               <button id="btn1" class="btn">Start</button>
+               <button id="btn2" class="btn">Promo</button>
+               <button id="btn3" class="btn">Contact</button>
+            </div>
+         </div>
+         <div id="nearestplanetholder">
+            Nearest planet:
+            <div id="nearestPlanet"></div>
+         </div>
+         <div id="overlaytextplanet"></div>
+         <div id="distancegauge">
+            We are about
+            <div id="distanceNumber"></div>
+            kilometers away from home.
+         </div>
+         <div id="starsystemtitle"></div>
+         <div id="exoplanetinfo"></div>
+         <div id="video">
+            <video id="promo" class="video-js" width="640" height="264" controls="controls" preload="auto" poster="http://i.imgur.com/bdhlhjw.png">
+               <source src="https://drive.google.com/uc?export=download&id=0B28uSltIxqmxRWYzRG9paUlzYVk" type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"'>
+            </video>
+         </div>
+         <div id="comparison">
+            <script>
+               $("#comparison").hide();
+            </script>
+         </div>
+      </div>
+   </body>
+</html>

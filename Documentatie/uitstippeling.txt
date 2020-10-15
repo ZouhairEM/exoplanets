@@ -1,0 +1,5 @@
+per scene slechts een render
+10 planets per scene
+per planet divs laten zien
+planeten roteren en camera locken
+array aanvullen met volledige data

@@ -1,0 +1,241 @@
+body {
+    background-color: black;
+    margin: 0;
+    overflow: hidden;
+    color: white;
+    font-family: monospace;
+    text-shadow: 5px 5px 10px black;
+}
+
+#container {
+    opacity: 1;
+    display: none;
+}
+
+#menu {
+    position: absolute;
+    left: 50%;
+    top: 25%;
+    zoom: 120%;
+}
+
+#intro {
+    opacity: 0.7;
+    position: relative;
+    left: -50%;
+    font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
+    font-size: 110%;
+    text-align: center;
+    padding: 0%;
+}
+
+#buttons {
+    opacity: 0.7;
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    left: -50%;
+    padding: 10%;
+}
+
+#btn1:hover,
+#btn2:hover,
+#btn3:hover {
+    background: rgba(255, 255, 255, 0.10);
+    font-size: 150%;
+    background: transparent;
+}
+
+.btn {
+    background: transparent;
+    font-family: monospace;
+    border-radius: 0px;
+    cursor: pointer;
+    overflow: hidden;
+    height: 58px;
+    line-height: 40px;
+    border: 2px solid white;
+    text-align: center;
+    width: 120px;
+    padding: 0px!important;
+    font-size: 120%;
+    color: #fff;
+}
+
+#ftlcanvas {
+    visibility: hidden;
+    position: absolute;
+    opacity: 0;
+}
+
+h1 {
+    font-size: 46px;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: 500;
+    line-height: 26.4px;
+}
+
+h2 {
+    font-size: 40px;
+    font-weight: 5;
+    line-height: 26.4px;
+    margin-top: 1%;
+    margin-bottom: -5%;
+}
+
+#video {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 15%;
+    z-index: 98;
+    display: none;
+}
+
+video {
+    width: 640px;
+    height: 504px;
+    position: absolute;
+    left: 50%;
+    top: 10%;
+    margin: -132px 0 0 -320px;
+    z-index: 99;
+}
+
+#overlaytextplanet {
+    left: 10%;
+    right: 50%;
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
+    flex-direction: column;
+    justify-content: center;
+    font-size: 100%;
+    margin-left: 1%;
+    margin-right: 5%;
+    margin-top: -3%;
+    opacity: .8;
+    font-variant: normal;
+    line-height: 16px;
+    -webkit-filter: blur(0.3px);
+    -moz-filter: blur(0.3px);
+    -o-filter: blur(0.3px);
+    -ms-filter: blur(0.3px);
+    filter: blur(0.3px);
+    cursor: default;
+    padding: 0%;
+    border-width: 2px;
+    border-bottom-width: 2px;
+    border-bottom-color: White;
+    border-bottom-style: solid;
+}
+
+#exoplanetinfo {
+    position: absolute;
+    top: 15%;
+    left: 10%;
+    padding-left: 3%;
+    padding-right: 3%;
+    padding-top: 0%;
+    padding-bottom: 2%;
+    font-size: 120%;
+    opacity: 0.8;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: 400;
+    visibility: hidden;
+    -webkit-filter: blur(0.3px);
+    -moz-filter: blur(0.3px);
+    -o-filter: blur(0.3px);
+    -ms-filter: blur(0.3px);
+    filter: blur(0.3px);
+    cursor: default;
+    padding: 0px 20px 10px 3px;
+    border-width: 2px;
+    border-bottom-width: 2px;
+    border-bottom-color: White;
+    border-bottom-style: solid;
+}
+
+#exoname {
+    text-align: center;
+}
+
+#comparison {
+    position: absolute;
+    padding: 0px;
+    top: 60%;
+    left: 10%;
+}
+
+video::-webkit-media-controls {
+opacity: 0.7%;
+}
+
+#whitesphere1 {
+    margin: 0px;
+    padding: 0px;
+    float: left;
+    margin-left: 10px;
+}
+
+#whitesphere2 {
+    margin: 0px;
+    padding: 0px;
+    float: left;
+    margin-left: 0px;
+}
+
+div img { width:70%; height:50%; }
+
+#distancegauge {
+    top: 80%;
+    left: 30%;
+    opacity: .8;
+    font-size: 19px;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: 400;
+    line-height: 15px;
+    -webkit-filter: blur(0.3px);
+    -moz-filter: blur(0.3px);
+    -o-filter: blur(0.3px);
+    -ms-filter: blur(0.3px);
+    filter: blur(0.3px);
+    cursor: default;
+    padding: 0px 2px 2px 3px;
+    border-width: 2px;
+    border-bottom-width: 2px;
+    border-bottom-color: White;
+    border-bottom-style: solid;
+}
+
+#distanceNumber {
+    margin-top: 8%;
+    margin-bottom: 8%;
+    font-size: 42px;
+    text-align: center;
+}
+
+#nearestplanetholder {
+ left: 46%;
+    -webkit-filter: blur(0.3px);
+    -moz-filter: blur(0.3px);
+    -o-filter: blur(0.3px);
+    -ms-filter: blur(0.3px);
+    filter: blur(0.3px);
+    cursor: default;
+    padding: 0px 2px 2px 3px;
+    border-width: 2px;
+    border-bottom-width: 2px;
+    border-bottom-color: White;
+    border-bottom-style: solid;
+}
+
+#nearestplanetholder,
+#nearestPlanet {
+    opacity: 0.9;
+    font-size: 15px;
+    text-align: center;
+}

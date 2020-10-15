@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<title>Selective Glow (Three.js)</title>
+	<meta charset="utf-8">
+ 
+</head>
+<body>
+
+<script src="js/Three58.js"></script>
+<script src="js/Detector.js"></script>
+<script src="js/Stats.js"></script>
+<script src="js/OrbitControls.js"></script>
+<script src="js/THREEx.KeyboardState.js"></script>
+<script src="js/THREEx.FullScreen.js"></script>
+<script src="js/THREEx.WindowResize.js"></script>
+
+<!-- Note the additional JS files! always need all of these for postprocessing. -->
+<script src="js/postprocessing/EffectComposer.js"></script>
+<script src="js/postprocessing/RenderPass.js"></script>
+<script src="js/postprocessing/ShaderPass.js"></script>
+<script src="js/postprocessing/MaskPass.js"></script>
+<script src="js/shaders/CopyShader.js"></script>
+
+<!-- separate out the shaders specific to this demo -->
+<script src="js/shaders/AdditiveBlendShader.js"></script>
+<script src="js/shaders/HorizontalBlurShader.js"></script>
+<script src="js/shaders/VerticalBlurShader.js"></script>
+<script src="js/postprocessing/BloomPass.js"></script>
+
+<!-- ------------------------------------------------------------ -->
+
+<div id="container" style="position: absolute; left:0px; top:0px"></div>
+<script>
+
+// MAIN
+
+// standard global variables
+var container, scene, camera, renderer, controls, stats;
+ 
+// custom global variables
+var composer2, finalComposer;
+
+init();
+animate();
+
+// FUNCTIONS 		
+function init() 
+{
+	// SCENE
+	scene = new THREE.Scene();
+	// CAMERA
+	var SCREEN_WIDTH = window.innerWidth, SCREEN_HEIGHT = window.innerHeight;
+	var VIEW_ANGLE = 45, ASPECT = SCREEN_WIDTH / SCREEN_HEIGHT, NEAR = 0.1, FAR = 20000;
+	camera = new THREE.PerspectiveCamera( VIEW_ANGLE, ASPECT, NEAR, FAR);
+	scene.add(camera);
+	camera.position.set(0,150,400);
+	camera.lookAt(scene.position);	
+
+	renderer = new THREE.WebGLRenderer( {antialias:true} );
+	renderer.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
+	
+	container = document.getElementById( 'container' );
+	container.appendChild( renderer.domElement );
+	
+	// CONTROLS
+	controls = new THREE.OrbitControls( camera, renderer.domElement );
+	// LIGHT
+	var light = new THREE.PointLight(0xffffff);
+	light.position.set(0,250,0);
+	scene.add(light);
+	
+	////////////
+	// CUSTOM //
+	////////////
+	
+	////////////////////////////////////////////////////////////////
+	// set up primary scene 
+	////////////////////////////////////////////////////////////////
+	
+	////////////////////////////////////////////////////////////////
+	// set up secondary scene 
+	////////////////////////////////////////////////////////////////
+	
+	var glowScene = new THREE.Scene();
+ 
+	// camera
+	camera2 = new THREE.PerspectiveCamera(VIEW_ANGLE, ASPECT, NEAR, FAR);
+	camera2.position = camera.position;
+	camera2.rotation = camera.rotation;
+	camera2.lookAt(glowScene.position);	
+	glowScene.add( camera2 );
+
+	// objects
+	var glowGeometry = new THREE.SphereGeometry( 55, 32, 16 );
+	var glowColor = new THREE.MeshBasicMaterial( { color: 0xFF3300, transparent:true, opacity:0.3 } );
+	var sphere2 = new THREE.Mesh( glowGeometry, glowColor );
+	sphere2.position.set(50,50,-50);
+	glowScene.add(sphere2);
+
+
+
+	// prepare secondary composer
+	var renderTargetParameters = 
+		{ minFilter: THREE.LinearFilter, magFilter: THREE.LinearFilter, 
+		  format: THREE.RGBFormat, stencilBuffer: false };
+	var renderTarget = new THREE.WebGLRenderTarget( SCREEN_WIDTH, SCREEN_HEIGHT, renderTargetParameters );
+	composer2 = new THREE.EffectComposer( renderer, renderTarget );
+	
+	// prepare the secondary render's passes
+	var render2Pass = new THREE.RenderPass( glowScene, camera2 );
+	composer2.addPass( render2Pass );
+	
+	// special effects to be applied to secondary render:
+	var effectHorizBlur = new THREE.ShaderPass( THREE.HorizontalBlurShader );
+	var effectVertiBlur = new THREE.ShaderPass( THREE.VerticalBlurShader );
+	effectHorizBlur.uniforms[ "h" ].value = 2 / window.innerWidth;
+	effectVertiBlur.uniforms[ "v" ].value = 2 / window.innerHeight;
+	composer2.addPass( effectHorizBlur );
+	composer2.addPass( effectVertiBlur );
+	
+	////////////////////////////////////////////////////////////////////////
+	// final composer will blend composer2.render() results with the scene 
+	////////////////////////////////////////////////////////////////////////
+	
+	// prepare final composer
+	finalComposer = new THREE.EffectComposer( renderer, renderTarget );
+
+	// prepare the final render's passes
+	var renderModel = new THREE.RenderPass( scene, camera );
+	finalComposer.addPass( renderModel );
+
+	var effectBlend = new THREE.ShaderPass( THREE.AdditiveBlendShader, "tDiffuse1" );
+	effectBlend.uniforms[ 'tDiffuse2' ].value = composer2.renderTarget2;
+	effectBlend.renderToScreen = true;
+	finalComposer.addPass( effectBlend );
+}
+
+function animate() 
+{
+    requestAnimationFrame( animate );
+	render();		
+	update();
+	
+}
+
+function update()
+{
+	controls.update();
+}
+
+function render() 
+{
+	composer2.render();
+	finalComposer.render();
+}
+
+</script>
+
+</body>
+</html>

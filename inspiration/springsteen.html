@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+  <style type="text/css">body {
+    margin: 0;
+    width: 80%;
+}
+
+#Sun {
+    fill: black;
+}
+
+.fillblack{
+  fill: black;
+}
+
+.solarsystem {
+    margin-top: 0%;
+    margin-left: 21%;
+}
+</style>
+</head>
+<body>
+    <div class="solarsystem"> <svg viewbox="0 0 1000 600" id="Layer_1" preserveAspectRatio="xMinYMin meet"><g  id="Sun2">
+ <!-- this is the sun, the right now black spec on the middle of the screen. This is the point where the planets need to be distanced from, in random angles so they don't line up. -->
+  <g id="XMLID_13_"><circle id="Sun" class="st0" cx="500" cy="300.8" r="5"/></g>
+</g>
+  </svg>
+<script type="text/javascript">
+    /*}); */          
+      //Centers the solar system
+            $("#solarsystem").addClass("centered-content")
+                .wrap("<div class='center-outer-container'></div>")
+                .wrap("<div class='center-inner-container'></div>");
+          
+      function load() {
+                location.reload();
+            }
+            
+  //this is an array that holds all of the json data I am working with
+   var arr=   [];
+var distance;
+var planetRadius;
+var rowid;
+var hostName;
+
+
+var svg=document.getElementById("Layer_1");
+var anims=[];
+for(var i=0;i<arr.length;i++){
+
+   rowid= arr[i]["rowid"];
+   distance= arr[i]["Distance [pc]"];
+   hostName= arr[i]["Host name"];
+   planetRadius=arr[i]["Planet Radius [Jupiter radii]"];//This is the idea how we should access the json objects, as your operations are not clear to us just I'm giving the idea
+  // Do what ever you want with  individual object
+       if(planetRadius !== null){
+           // If planet radius not null do whatever you want.
+           var circle=document.createElementNS("http://www.w3.org/2000/svg","circle");
+           circle.setAttribute("class","fillblack");
+           circle.setAttribute("cx","0");
+           circle.setAttribute("cy","0");
+           circle.setAttribute("r",planetRadius.toString());
+           var logDist=Math.log(distance+1)*50;
+           var angle=0; // change this based on the current time, if you would like an animation
+           circle.setAttribute("transform","translate(500 300.8) rotate("+angle+") translate("+logDist+")");
+           svg.appendChild(circle);
+           (function(){
+            var _circle=circle,_logDist=logDist;
+            anims.push(function(){
+            var new_angle=(new Date().getTime()/(_logDist*_logDist*_logDist/100000))%(360);
+            _circle.setAttribute("transform","translate(500 300.8) rotate("+new_angle+") translate("+_logDist+")");
+           
+           });})();
+        }
+}
+var f=function(){
+  // do your animations here
+  for(var i=0;i<anims.length;i++){anims[i]();}
+  window.requestAnimationFrame(f);
+};
+window.requestAnimationFrame(f);
+</script>
+</body>
+</html>
